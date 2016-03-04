@@ -28,7 +28,7 @@ int main (int argc, char *argv[]) {
 	}
 
 	string text = readInText(argv[1]);
-	if (VERBOSE) cerr << "\nmain: The input string is " << text << "\n";
+	if (VERBOSE) cerr << "\nmain: The input string is - " << text << "\n";
 
 	text.erase(remove(text.begin(), text.end(), ' '), text.end());
 	text.erase(remove(text.begin(), text.end(), '\t'), text.end());
@@ -51,11 +51,11 @@ int main (int argc, char *argv[]) {
 	text.erase(remove(text.begin(), text.end(), '7'), text.end());
 	text.erase(remove(text.begin(), text.end(), '8'), text.end());
 	text.erase(remove(text.begin(), text.end(), '9'), text.end());
-	if (VERBOSE) cerr << "\nmain: The string sans spaces is " << text << "\n";
+	if (VERBOSE) cerr << "\nmain: The string sans spaces is - " << text << "\n";
 	
 	bool test = testString(text);
 	if (test) {
-		cout << "\nmain: The longest string is " << text << "with size " << text.size() << "\n";
+		cout << "\nmain: The longest palindrome is - " << text << " - with size " << text.size() << "\n";
 	}
 
 	return 0;
@@ -84,7 +84,7 @@ string readInText(char *Fname) {
 bool testString(string text) {
 	int size = text.size();
 	for (int i=0; i<size/2; i++) {
-		if (text[i] != text[size-2-i])
+		if (text[i] != text[size-1-i])
 			return false;
 	}
 
