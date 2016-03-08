@@ -23,6 +23,7 @@ using namespace std;
 string readInText (char *);
 bool testString (string);
 int max (int, int);
+void printarr(int, int**);
 
 int main (int argc, char *argv[]) {
 	// check cla
@@ -82,11 +83,19 @@ int main (int argc, char *argv[]) {
 	if (VERBOSE) cerr << "\nmain: for: sub is " << sub << "\n";
 
 		for (int i=0; i<size-sub; i++) {
+			// for subsequence of length 1
 			if (sub == 0) {
 				palindrome[i][i] = 1;
 				continue;
 			}
 
+			// for subsequence of length 2
+			if (text[i] == text[i+sub] && sub == 1) {
+				palindrome[i][i+sub] = 2;
+				continue;
+			}
+			
+			// otherwise
 			if (text[i] == text[i+sub]) {
 				if (VERBOSE) cerr << "\nmain: for: if: found a match " << text[i] << " at indices " << i << " and " << i+sub << "\n";
 				palindrome[i][i+sub] = 2 + max(palindrome[i][i+sub-1], palindrome[i+1][i+sub]);
@@ -97,6 +106,11 @@ int main (int argc, char *argv[]) {
 	}
 
 	cout << "\nmain: The longest palindrome is length " << palindrome[0][size-1] << "\n";
+
+	if (VERBOSE) printarr(size, palindrome);
+
+	// REBUILD THE SUBSEQUENCE STRING
+	
 
 	return 0;
 }
@@ -135,4 +149,12 @@ int max (int a, int b) {
 	return (a > b) ? a : b;
 }
 
-
+void printarr (int size, int** a) {
+	for (int i=0; i<size; i++) {
+		for (int j=0; j<size; j++) {
+			cout << a[i][j] << "\t";
+		}
+		cout << "\n";
+	}
+	return;
+}
