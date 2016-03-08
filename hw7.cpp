@@ -116,6 +116,52 @@ int main (int argc, char *argv[]) {
 
 	if (VERBOSE) printarr(size, palindrome);
 
+	// reconstruct string
+	string pal = text;
+	for (int i=0; i<size; i++) {
+		pal[i] = '\0';
+	}
+	int row = 0;
+	int col = size-1;
+	int n = 0;
+
+	for (int i=0; i<size; i++) {
+		// check for base case
+		if (palindrome[row][col] == 1) {
+			pal[n] = ' ';
+			pal[n+1] = text[row];
+			pal[n+2] = ' ';
+			break;
+		}
+
+		// check for two neighbors
+		if (palindrome[row][col] == 2) {
+			pal[n] = text[row];
+			pal[n+1] = ' ';
+			pal[size-n-1] = text[row];
+			break;
+		}
+
+		// check to see that current is bigger than children
+		if (palindrome[row][col] > max(palindrome[row][col-1], palindrome[row+1][col])) {
+			pal[n] = text[row];
+			pal[size-n-1] = text[row];
+			n++;
+			row++;
+			col--;
+		} else {
+			if (max(palindrome[row][col-1], palindrome[row+1][col]) == palindrome[row][col-1]){
+				col--;
+			} else {
+				row++;
+			}
+		}
+		if (VERBOSE) cerr << "\nmain: for: Pal is " << pal << "\n";
+	}
+
+	pal.erase(remove(pal.begin(), pal.end(), '\0'), pal.end());
+	cerr << "\nmain: The palindromic subsequence is\n" << pal << "\n";
+
 	// cleanup
 	for (int i=0; i<size; i++) {
 		delete palindrome[i];
