@@ -12,7 +12,7 @@
 #include <streambuf>
 #include <algorithm>
 
-#define usage 	"\nUsage: ./<executable> <filename.txt>\n"
+#define usage 	"\nUSAGE: ./{executable} {input filename}.txt\n"
 #define VERBOSE true
 
 using namespace std;

@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define usage "USAGE: ./{randString Executable} {Number of characters in random string} > {output file}.txt\n"
+#define usage "USAGE: ./{Executable} {Number of characters in random string} > {output file}.txt\n"
 
 int main (int argc, char *argv[]) {
 
