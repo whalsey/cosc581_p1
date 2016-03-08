@@ -16,7 +16,7 @@
 #include <algorithm>
 
 #define usage "\nUSAGE: ./{Executable} {Input Filename}.txt\n"
-#define VERBOSE true
+#define VERBOSE false
 
 using namespace std;
 
@@ -98,7 +98,7 @@ int main (int argc, char *argv[]) {
 			// otherwise
 			if (text[i] == text[i+sub]) {
 				if (VERBOSE) cerr << "\nmain: for: if: found a match " << text[i] << " at indices " << i << " and " << i+sub << "\n";
-				palindrome[i][i+sub] = 2 + max(palindrome[i][i+sub-1], palindrome[i+1][i+sub]);
+				palindrome[i][i+sub] = 1 + max(palindrome[i][i+sub-1], palindrome[i+1][i+sub]) + max(palindrome[i][i+sub-1], palindrome[i+1][i+sub])%2;
 			} else {
 				palindrome[i][i+sub] = max(palindrome[i][i+sub-1], palindrome[i+1][i+sub]);
 			}
@@ -108,6 +108,11 @@ int main (int argc, char *argv[]) {
 	cout << "\nmain: The longest palindrome is length " << palindrome[0][size-1] << "\n";
 
 	if (VERBOSE) printarr(size, palindrome);
+
+	for (int i=0; i<size; i++) {
+		delete palindrome[i];
+	}
+	delete palindrome;
 
 	// REBUILD THE SUBSEQUENCE STRING
 	
