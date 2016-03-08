@@ -12,7 +12,7 @@
 #include <streambuf>
 #include <algorithm>
 
-#define usage 	"\nUSAGE: ./{executable} {input filename}.txt\n"
+#define usage "\nUSAGE: ./{Executable} {Input Filename}.txt\n"
 #define VERBOSE true
 
 using namespace std;
@@ -22,6 +22,7 @@ bool testString(string);
 void eliminateExtraCharacters(string);
 
 int main (int argc, char *argv[]) {
+	// check cla
 	if (argc != 2) {
 		cout << usage;
 		exit(1);
@@ -30,6 +31,7 @@ int main (int argc, char *argv[]) {
 	string text = readInText(argv[1]);
 	if (VERBOSE) cerr << "\nmain: The input string is - " << text << "\n";
 
+	// strip special characters from string
 	text.erase(remove(text.begin(), text.end(), ' '), text.end());
 	text.erase(remove(text.begin(), text.end(), '\t'), text.end());
 	text.erase(remove(text.begin(), text.end(), '\n'), text.end());
@@ -51,6 +53,10 @@ int main (int argc, char *argv[]) {
 	text.erase(remove(text.begin(), text.end(), '7'), text.end());
 	text.erase(remove(text.begin(), text.end(), '8'), text.end());
 	text.erase(remove(text.begin(), text.end(), '9'), text.end());
+	
+	// convert to all lowercase
+	transform(text.begin(), text.end(), text.begin(), ::tolower);	
+	
 	if (VERBOSE) cerr << "\nmain: The string sans spaces is - " << text << "\n";
 	
 	// Test to see if the input string is already a Palindrome
