@@ -7,11 +7,13 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #define usage "USAGE: ./{Executable} {Number of characters in random string} > {output file}.txt\n"
 
 int main (int argc, char *argv[]) {
 
+	srand(clock());
 	if (argc != 2) {
 		fprintf(stderr, usage);
 		exit(-1);
