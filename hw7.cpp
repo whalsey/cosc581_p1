@@ -2,6 +2,9 @@
  * hw7.cpp written by William Halsey
  * whalsey@vols.utk.edu
  *
+ * Created
+ * 	Wednesday 2 March 2016
+ *
  */
 
 #include <cstdio>
@@ -17,9 +20,9 @@
 
 using namespace std;
 
-string readInText(char *);
-bool testString(string);
-void eliminateExtraCharacters(string);
+string readInText (char *);
+bool testString (string);
+int max (int, int);
 
 int main (int argc, char *argv[]) {
 	// check cla
@@ -68,21 +71,37 @@ int main (int argc, char *argv[]) {
 
 	// FIND THE LONGEST PALINDROMIC SUBSTRING
 	int size = text.size();
-	
-	for (int super=0; super<size; super++) {
+	int **palindrome = new int *[size];
 	for (int i=0; i<size; i++) {
-		for (int j=size-1; j>=i+super; j--) {
-			if (text[i] == text[j]) {
-				cout << "main: super - " << super << " matching pair of letters " << text[i] << " at indices " << i << " and " << j << "\n";
+		palindrome[i] = new int[size];
+	}
+	
+	if (VERBOSE) cerr << "\nmain: palindrome[size/2][size/2] is " << palindrome[size/2][size/2]	<< "\n";
+
+	for (int sub=0; sub<size; sub++) {
+	if (VERBOSE) cerr << "\nmain: for: sub is " << sub << "\n";
+
+		for (int i=0; i<size-sub; i++) {
+			if (sub == 0) {
+				palindrome[i][i] = 1;
+				continue;
+			}
+
+			if (text[i] == text[i+sub]) {
+				if (VERBOSE) cerr << "\nmain: for: if: found a match " << text[i] << " at indices " << i << " and " << i+sub << "\n";
+				palindrome[i][i+sub] = 2 + max(palindrome[i][i+sub-1], palindrome[i+1][i+sub]);
+			} else {
+				palindrome[i][i+sub] = max(palindrome[i][i+sub-1], palindrome[i+1][i+sub]);
 			}
 		}
 	}
-	}
+
+	cout << "\nmain: The longest palindrome is length " << palindrome[0][size-1] << "\n";
 
 	return 0;
 }
 
-string readInText(char *Fname) {
+string readInText (char *Fname) {
 	if (VERBOSE) cout << "\nreadInText: Entered function\n";
 	
 	int size;
@@ -102,7 +121,7 @@ string readInText(char *Fname) {
 	return text;
 }
 
-bool testString(string text) {
+bool testString (string text) {
 	int size = text.size();
 	for (int i=0; i<size/2; i++) {
 		if (text[i] != text[size-1-i])
@@ -112,8 +131,8 @@ bool testString(string text) {
 	return true;
 }
 
-void eliminateExtraCharacters(string) {
-
+int max (int a, int b) {
+	return (a > b) ? a : b;
 }
 
 
