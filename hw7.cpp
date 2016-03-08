@@ -53,9 +53,24 @@ int main (int argc, char *argv[]) {
 	text.erase(remove(text.begin(), text.end(), '9'), text.end());
 	if (VERBOSE) cerr << "\nmain: The string sans spaces is - " << text << "\n";
 	
+	// Test to see if the input string is already a Palindrome
 	bool test = testString(text);
 	if (test) {
 		cout << "\nmain: The longest palindrome is - " << text << " - with size " << text.size() << "\n";
+		return 0;
+	}
+
+	// FIND THE LONGEST PALINDROMIC SUBSTRING
+	int size = text.size();
+	
+	for (int super=0; super<size; super++) {
+	for (int i=0; i<size; i++) {
+		for (int j=size-1; j>=i+super; j--) {
+			if (text[i] == text[j]) {
+				cout << "main: super - " << super << " matching pair of letters " << text[i] << " at indices " << i << " and " << j << "\n";
+			}
+		}
+	}
 	}
 
 	return 0;
