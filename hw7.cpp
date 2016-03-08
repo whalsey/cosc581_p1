@@ -2,8 +2,7 @@
  * hw7.cpp written by William Halsey
  * whalsey@vols.utk.edu
  *
- * Created
- * 	Wednesday 2 March 2016
+ * Wednesday 2 March 2016
  *
  */
 
