@@ -14,6 +14,7 @@
 #include <fstream>
 #include <streambuf>
 #include <algorithm>
+#include <ctime>
 
 #define usage "\nUSAGE: ./{Executable} {Input Filename}.txt\n"
 #define VERBOSE false
@@ -28,7 +29,7 @@ void printarr(int, int**);
 int main (int argc, char *argv[]) {
 	// check cla
 	if (argc != 2) {
-		cout << usage;
+		cerr << usage;
 		exit(1);
 	}
 
@@ -62,11 +63,14 @@ int main (int argc, char *argv[]) {
 	transform(text.begin(), text.end(), text.begin(), ::tolower);	
 	
 	if (VERBOSE) cerr << "\nmain: The string sans spaces is - " << text << "\n";
-	
+
+	// === BEGIN TIMING === //
+	clock_t time = clock();
+
 	// Test to see if the input string is already a Palindrome
 	bool test = testString(text);
 	if (test) {
-		cout << "\nmain: The longest palindrome is - " << text << " - with size " << text.size() << "\n";
+		cerr << "\nmain: The longest palindrome is - " << text << " - with size " << text.size() << "\n";
 		return 0;
 	}
 
@@ -98,24 +102,26 @@ int main (int argc, char *argv[]) {
 			// otherwise
 			if (text[i] == text[i+sub]) {
 				if (VERBOSE) cerr << "\nmain: for: if: found a match " << text[i] << " at indices " << i << " and " << i+sub << "\n";
-				palindrome[i][i+sub] = 1 + max(palindrome[i][i+sub-1], palindrome[i+1][i+sub]) + max(palindrome[i][i+sub-1], palindrome[i+1][i+sub])%2;
+				palindrome[i][i+sub] = 2 + palindrome[i+1][i+sub-1];
 			} else {
 				palindrome[i][i+sub] = max(palindrome[i][i+sub-1], palindrome[i+1][i+sub]);
 			}
 		}
 	}
 
-	cout << "\nmain: The longest palindrome is length " << palindrome[0][size-1] << "\n";
+	// === END TIMING === //
+	time = clock() - time;
+	cout << (float)time/CLOCKS_PER_SEC << ", ";
+
+	cerr << "\nmain: The longest palindrome is length " << palindrome[0][size-1] << "\n";
 
 	if (VERBOSE) printarr(size, palindrome);
 
+	// cleanup
 	for (int i=0; i<size; i++) {
 		delete palindrome[i];
 	}
 	delete palindrome;
-
-	// REBUILD THE SUBSEQUENCE STRING
-	
 
 	return 0;
 }
